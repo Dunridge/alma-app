@@ -1,2 +1,11 @@
 @import url("../styles/immigration-form.css");
 @import url("../styles/submitted-page.css");
+
+/*reset*/
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
