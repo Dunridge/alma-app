@@ -16,3 +16,15 @@ body {
 body {
   font-family: var(--font-lato), sans-serif;
 }
+
+textarea {
+  font-family: var(--font-lato), sans-serif;
+  font-size: 16px;
+  padding: 8px;
+}
+
+textarea::placeholder {
+  font-family: var(--font-lato), sans-serif;
+  font-size: 16px;
+  color: #999;
+}
