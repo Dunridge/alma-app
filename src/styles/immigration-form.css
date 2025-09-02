@@ -8,6 +8,17 @@
   font-family: Arial, sans-serif;
 }
 
+.immigration-form__body {
+  width: 100%;
+  max-width: 500px;
+  background-color: #f9fafb;
+  padding: 2rem;
+  border-radius: 0 0 0.5rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .immigration-form__header {
   width: 100%;
   max-width: 500px;
@@ -21,18 +32,6 @@
   font-size: 2rem;
   font-weight: bold;
   color: #111827;
-}
-
-.immigration-form__body {
-  width: 100%;
-  max-width: 500px;
-  background-color: #fff;
-  padding: 2rem;
-  border-radius: 0 0 0.5rem 0.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
 }
 
 .immigration-form__intro {

@@ -46,12 +46,6 @@ export default function ImmigrationAssessmentForm() {
   // TODO: add components for the inputs
   return (
     <div className="immigration-form">
-      <div className="immigration-form__header">
-        <h1 className="immigration-form__title">
-          Get An Assessment Of Your Immigration Case
-        </h1>
-      </div>
-
       <form className="immigration-form__body" onSubmit={handleSubmit}>
         <div className="immigration-form__intro">
           <p className="immigration-form__intro-title">
