@@ -57,9 +57,22 @@
 }
 
 .immigration-form__group--file-upload {
-  border: 1px solid #d1cfff; /* #8786FF */
+  border: 1px solid #d1cfff;
   border-radius: 2px;
-  padding: 40px;
+  padding: 40px 40px 24px 40px;
+}
+
+.immigration-form__group--file-upload input {
+  display: none;
+}
+
+.immigration-form__group--file-upload-placeholder {
+  margin: 16px 0;
+}
+
+.immigration-form__group--file-upload.drag-hover {
+  border-color: #8786ff;
+  background-color: #f5f5ff;
 }
 
 .immigration-form__group-container {
