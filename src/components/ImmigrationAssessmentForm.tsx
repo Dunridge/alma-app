@@ -8,7 +8,7 @@ import category from "@/assets/svg/category.svg";
 import info from "@/assets/svg/info.svg";
 import FormInput from "./FormInput";
 import FormTextarea from "./FormTextarea";
-import FormSelect from "./FormSelect";
+import FormCheckboxGroup from "./FormCheckboxGroup";
 
 const visaOptions = ["O-1", "EB-1A", "EB-2 NIW", "I don't know"];
 
@@ -19,9 +19,9 @@ export default function ImmigrationAssessmentForm() {
     firstName: "",
     lastName: "",
     email: "",
-    country: "",
     linkedin: "",
     visaCategories: [] as string[],
+    resume: null as File | null,
     helpText: "",
   });
 
@@ -47,6 +47,12 @@ export default function ImmigrationAssessmentForm() {
     e.preventDefault();
     console.log("Form submitted:", formData);
     router.push("/submitted");
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFormData((prev) => ({ ...prev, resume: e.target.files![0] }));
+    }
   };
 
   return (
@@ -91,20 +97,6 @@ export default function ImmigrationAssessmentForm() {
             className="immigration-form__input"
           />
 
-          <FormSelect
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-            className="immigration-form__select"
-            options={[
-              { label: "Country of Citizenship", value: "" },
-              { label: "United States", value: "US" },
-              { label: "Canada", value: "CA" },
-              { label: "India", value: "IN" },
-              { label: "Other", value: "Other" },
-            ]}
-          />
-
           <FormInput
             name="linkedin"
             placeholder="LinkedIn / Personal Website URL"
@@ -116,23 +108,28 @@ export default function ImmigrationAssessmentForm() {
 
         <div className="immigration-form__group">
           <Image src={category} alt="Category" width={64} height={64} />
-
           <div className="immigration-form__group-container">
-            <p className="immigration-form__group-title">
-              Visa categories of interest?
-            </p>
-            {visaOptions.map((option) => (
-              <label key={option} className="immigration-form__checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={formData.visaCategories.includes(option)}
-                  onChange={() => handleCheckboxChange(option)}
-                  className="immigration-form__checkbox"
-                />
-                {option}
-              </label>
-            ))}
+            <FormCheckboxGroup
+              label="Visa categories of interest?"
+              options={visaOptions.map((v) => ({ label: v, value: v }))}
+              selectedValues={formData.visaCategories}
+              onChange={handleCheckboxChange}
+            />
           </div>
+        </div>
+
+        {/* TODO: convert to a component */}
+        <div className="immigration-form__group">
+          <label className="immigration-form__group-title">
+            Resume / CV (file upload)
+          </label>
+          <input
+            type="file"
+            accept=".pdf,.doc,.docx"
+            onChange={handleFileChange}
+            className="immigration-form__file-input"
+          />
+          {formData.resume && <p>Selected file: {formData.resume.name}</p>}
         </div>
 
         <div className="immigration-form__group">
