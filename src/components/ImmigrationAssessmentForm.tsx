@@ -6,6 +6,9 @@ import Image from "next/image";
 import like from "@/assets/svg/like.svg";
 import category from "@/assets/svg/category.svg";
 import info from "@/assets/svg/info.svg";
+import FormInput from "./FormInput";
+import FormTextarea from "./FormTextarea";
+import FormSelect from "./FormSelect";
 
 const visaOptions = ["O-1", "EB-1A", "EB-2 NIW", "I don't know"];
 
@@ -43,11 +46,9 @@ export default function ImmigrationAssessmentForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
-    // route to the submitted page
     router.push("/submitted");
   };
 
-  // TODO: add components for the inputs
   return (
     <div className="immigration-form">
       <form className="immigration-form__body" onSubmit={handleSubmit}>
@@ -65,24 +66,23 @@ export default function ImmigrationAssessmentForm() {
         </div>
 
         <div className="immigration-form__group">
-          {/* TODO: make input component */}
-          <input
-            type="text"
+          <FormInput
             name="firstName"
             placeholder="First Name"
             value={formData.firstName}
             onChange={handleChange}
             className="immigration-form__input"
           />
-          <input
-            type="text"
+
+          <FormInput
             name="lastName"
             placeholder="Last Name"
             value={formData.lastName}
             onChange={handleChange}
             className="immigration-form__input"
           />
-          <input
+
+          <FormInput
             type="email"
             name="email"
             placeholder="Email"
@@ -90,20 +90,22 @@ export default function ImmigrationAssessmentForm() {
             onChange={handleChange}
             className="immigration-form__input"
           />
-          <select
+
+          <FormSelect
             name="country"
             value={formData.country}
             onChange={handleChange}
             className="immigration-form__select"
-          >
-            <option value="">Country of Citizenship</option>
-            <option value="US">United States</option>
-            <option value="CA">Canada</option>
-            <option value="IN">India</option>
-            <option value="Other">Other</option>
-          </select>
-          <input
-            type="text"
+            options={[
+              { label: "Country of Citizenship", value: "" },
+              { label: "United States", value: "US" },
+              { label: "Canada", value: "CA" },
+              { label: "India", value: "IN" },
+              { label: "Other", value: "Other" },
+            ]}
+          />
+
+          <FormInput
             name="linkedin"
             placeholder="LinkedIn / Personal Website URL"
             value={formData.linkedin}
@@ -140,11 +142,12 @@ export default function ImmigrationAssessmentForm() {
             <p className="immigration-form__group-title">
               How can we help you?
             </p>
-            <textarea
+
+            <FormTextarea
               name="helpText"
+              placeholder="What is your current status and when does it expire? What is your past immigration history? Are you looking for long-term permanent residency or short-term employment visa or both? Are there any timeline considerations?"
               value={formData.helpText}
               onChange={handleChange}
-              placeholder="What is your current status and when does it expire? What is your past immigration history? Are you looking for long-term permanent residency or short-term employment visa or both? Are there any timeline considerations?"
               className="immigration-form__textarea"
             />
           </div>
