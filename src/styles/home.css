@@ -1,0 +1,21 @@
+.home {
+  display: flex;
+  flex-direction: column;
+}
+
+.home__header {
+  background-color: #d9dea5;
+  height: 400px;
+}
+
+.home__header-container {
+  padding: 100px 164px;
+}
+
+.home__header-title {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  font-size: 64px;
+  font-weight: 600;
+}
