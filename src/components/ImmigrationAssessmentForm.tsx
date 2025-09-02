@@ -9,6 +9,7 @@ import info from "@/assets/svg/info.svg";
 import FormInput from "./FormInput";
 import FormTextarea from "./FormTextarea";
 import FormCheckboxGroup from "./FormCheckboxGroup";
+import FormFileInput from "./FormFileInput";
 
 const visaOptions = ["O-1", "EB-1A", "EB-2 NIW", "I don't know"];
 
@@ -119,7 +120,7 @@ export default function ImmigrationAssessmentForm() {
         </div>
 
         {/* TODO: convert to a component */}
-        <div className="immigration-form__group">
+        {/* <div className="immigration-form__group">
           <label className="immigration-form__group-title">
             Resume / CV (file upload)
           </label>
@@ -130,7 +131,15 @@ export default function ImmigrationAssessmentForm() {
             className="immigration-form__file-input"
           />
           {formData.resume && <p>Selected file: {formData.resume.name}</p>}
-        </div>
+        </div> */}
+
+        <FormFileInput
+          label="Resume / CV (file upload)"
+          file={formData.resume}
+          onChange={(file) =>
+            setFormData((prev) => ({ ...prev, resume: file }))
+          }
+        />
 
         <div className="immigration-form__group">
           <Image src={like} alt="Like" width={64} height={64} />
