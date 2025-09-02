@@ -1,0 +1,150 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import Image from "next/image";
+import like from "@/assets/svg/like.svg";
+import category from "@/assets/svg/category.svg";
+import info from "@/assets/svg/info.svg";
+import FormInput from "./FormInput";
+import FormTextarea from "./FormTextarea";
+import FormCheckboxGroup from "./FormCheckboxGroup";
+import FormFileInput from "./FormFileInput";
+
+const visaOptions = ["O-1", "EB-1A", "EB-2 NIW", "I don't know"];
+
+export default function ImmigrationAssessmentForm() {
+  const router = useRouter();
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    linkedin: "",
+    visaCategories: [] as string[],
+    resume: null as File | null,
+    helpText: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCheckboxChange = (option: string) => {
+    setFormData((prev) => {
+      const visaCategories = prev.visaCategories.includes(option)
+        ? prev.visaCategories.filter((v) => v !== option)
+        : [...prev.visaCategories, option];
+      return { ...prev, visaCategories };
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+    router.push("/submitted");
+  };
+
+  const handleFileChange = (file: File | null) => {
+    setFormData((prev) => ({ ...prev, resume: file }));
+  };
+
+  return (
+    <div className="immigration-form">
+      <form className="immigration-form__body" onSubmit={handleSubmit}>
+        <div className="immigration-form__intro">
+          <Image src={info} alt="Like" width={64} height={64} />
+
+          <p className="immigration-form__intro-title">
+            Want to understand your visa options?
+          </p>
+          <p className="immigration-form__intro-text">
+            Submit the form below and our team of experienced attorneys will
+            review your information and send a preliminary assessment of your
+            case based on your goals.
+          </p>
+        </div>
+
+        <div className="immigration-form__group">
+          <FormInput
+            name="firstName"
+            placeholder="First Name"
+            value={formData.firstName}
+            onChange={handleChange}
+            className="immigration-form__input"
+          />
+
+          <FormInput
+            name="lastName"
+            placeholder="Last Name"
+            value={formData.lastName}
+            onChange={handleChange}
+            className="immigration-form__input"
+          />
+
+          <FormInput
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            className="immigration-form__input"
+          />
+
+          <FormInput
+            name="linkedin"
+            placeholder="LinkedIn / Personal Website URL"
+            value={formData.linkedin}
+            onChange={handleChange}
+            className="immigration-form__input"
+          />
+        </div>
+
+        <div className="immigration-form__group">
+          <Image src={category} alt="Category" width={64} height={64} />
+          <div className="immigration-form__group-container">
+            <FormCheckboxGroup
+              label="Visa categories of interest?"
+              options={visaOptions.map((v) => ({ label: v, value: v }))}
+              selectedValues={formData.visaCategories}
+              onChange={handleCheckboxChange}
+            />
+          </div>
+        </div>
+
+        <FormFileInput
+          label="Resume / CV (file upload)"
+          file={formData.resume}
+          onChange={handleFileChange}
+        />
+
+        <div className="immigration-form__group">
+          <Image src={like} alt="Like" width={64} height={64} />
+
+          <div className="immigration-form__group-container">
+            <p className="immigration-form__group-title">
+              How can we help you?
+            </p>
+
+            <FormTextarea
+              name="helpText"
+              placeholder="What is your current status and when does it expire? What is your past immigration history? Are you looking for long-term permanent residency or short-term employment visa or both? Are there any timeline considerations?"
+              value={formData.helpText}
+              onChange={handleChange}
+              className="immigration-form__textarea"
+            />
+          </div>
+        </div>
+
+        <button type="submit" className="immigration-form__submit-btn">
+          Submit
+        </button>
+      </form>
+    </div>
+  );
+}
