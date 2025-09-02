@@ -50,10 +50,8 @@ export default function ImmigrationAssessmentForm() {
     router.push("/submitted");
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFormData((prev) => ({ ...prev, resume: e.target.files![0] }));
-    }
+  const handleFileChange = (file: File | null) => {
+    setFormData((prev) => ({ ...prev, resume: file }));
   };
 
   return (
@@ -119,26 +117,10 @@ export default function ImmigrationAssessmentForm() {
           </div>
         </div>
 
-        {/* TODO: convert to a component */}
-        {/* <div className="immigration-form__group">
-          <label className="immigration-form__group-title">
-            Resume / CV (file upload)
-          </label>
-          <input
-            type="file"
-            accept=".pdf,.doc,.docx"
-            onChange={handleFileChange}
-            className="immigration-form__file-input"
-          />
-          {formData.resume && <p>Selected file: {formData.resume.name}</p>}
-        </div> */}
-
         <FormFileInput
           label="Resume / CV (file upload)"
           file={formData.resume}
-          onChange={(file) =>
-            setFormData((prev) => ({ ...prev, resume: file }))
-          }
+          onChange={handleFileChange}
         />
 
         <div className="immigration-form__group">

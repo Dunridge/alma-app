@@ -16,7 +16,7 @@ export default function FormFileInput({ label, file, onChange }: Props) {
   };
 
   return (
-    <div className="immigration-form__group">
+    <div className="immigration-form__group immigration-form__group--file-upload">
       <label className="immigration-form__group-title">{label}</label>
       <input
         type="file"

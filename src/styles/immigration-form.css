@@ -56,6 +56,12 @@
   gap: 0.75rem;
 }
 
+.immigration-form__group--file-upload {
+  border: 1px solid #d1cfff; /* #8786FF */
+  border-radius: 2px;
+  padding: 40px;
+}
+
 .immigration-form__group-container {
   width: 100%;
 }
