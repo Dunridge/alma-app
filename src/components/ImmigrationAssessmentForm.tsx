@@ -2,6 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import Image from "next/image";
+import like from "@/assets/svg/like.svg";
+import category from "@/assets/svg/category.svg";
+import info from "@/assets/svg/info.svg";
 
 const visaOptions = ["O-1", "EB-1A", "EB-2 NIW", "I don't know"];
 
@@ -48,6 +52,8 @@ export default function ImmigrationAssessmentForm() {
     <div className="immigration-form">
       <form className="immigration-form__body" onSubmit={handleSubmit}>
         <div className="immigration-form__intro">
+          <Image src={info} alt="Like" width={64} height={64} />
+
           <p className="immigration-form__intro-title">
             Want to understand your visa options?
           </p>
@@ -107,31 +113,41 @@ export default function ImmigrationAssessmentForm() {
         </div>
 
         <div className="immigration-form__group">
-          <p className="immigration-form__group-title">
-            Visa categories of interest?
-          </p>
-          {visaOptions.map((option) => (
-            <label key={option} className="immigration-form__checkbox-label">
-              <input
-                type="checkbox"
-                checked={formData.visaCategories.includes(option)}
-                onChange={() => handleCheckboxChange(option)}
-                className="immigration-form__checkbox"
-              />
-              {option}
-            </label>
-          ))}
+          <Image src={category} alt="Category" width={64} height={64} />
+
+          <div className="immigration-form__group-container">
+            <p className="immigration-form__group-title">
+              Visa categories of interest?
+            </p>
+            {visaOptions.map((option) => (
+              <label key={option} className="immigration-form__checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={formData.visaCategories.includes(option)}
+                  onChange={() => handleCheckboxChange(option)}
+                  className="immigration-form__checkbox"
+                />
+                {option}
+              </label>
+            ))}
+          </div>
         </div>
 
         <div className="immigration-form__group">
-          <p className="immigration-form__group-title">How can we help you?</p>
-          <textarea
-            name="helpText"
-            value={formData.helpText}
-            onChange={handleChange}
-            placeholder="What is your current status and when does it expire? What is your past immigration history? Are you looking for long-term permanent residency or short-term employment visa or both? Are there any timeline considerations?"
-            className="immigration-form__textarea"
-          />
+          <Image src={like} alt="Like" width={64} height={64} />
+
+          <div className="immigration-form__group-container">
+            <p className="immigration-form__group-title">
+              How can we help you?
+            </p>
+            <textarea
+              name="helpText"
+              value={formData.helpText}
+              onChange={handleChange}
+              placeholder="What is your current status and when does it expire? What is your past immigration history? Are you looking for long-term permanent residency or short-term employment visa or both? Are there any timeline considerations?"
+              className="immigration-form__textarea"
+            />
+          </div>
         </div>
 
         <button type="submit" className="immigration-form__submit-btn">

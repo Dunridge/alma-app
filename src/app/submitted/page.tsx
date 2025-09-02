@@ -1,20 +1,16 @@
 "use client";
 
 import Link from "next/link";
-// import Image from "next/image";
+import Image from "next/image";
 import React from "react";
+import like from "@/assets/svg/like.svg";
 
 export default function SubmittedPage() {
   return (
     <div className="submitted">
       <div className="submitted__card">
         <div className="submitted__icon">
-          {/* <Image
-            // src={null} // TODO: replace with actual icon path for info icon
-            alt="Thank You Icon"
-            width={64}
-            height={64}
-          /> */}
+          <Image src={like} alt="Like" width={64} height={64} />
         </div>
 
         <h1 className="submitted__title">Thank You</h1>
