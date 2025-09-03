@@ -1,7 +1,9 @@
 "use client";
 
 import { Lead, Status } from "@/types";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useMemo, useState } from "react";
+import search from "@/assets/svg/search.svg";
+import Image from "next/image";
 
 type Props = {
   leads: Lead[];
@@ -11,6 +13,22 @@ type Props = {
 export default function LeadsTable({ leads, setLeads }: Props) {
   // TODO: add pagination
   // TODO: add a search input here
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredLeads = useMemo(() => {
+    if (!searchQuery) return leads;
+    return leads.filter(
+      (lead) =>
+        lead.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        lead.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        lead.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        lead.linkedin.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        lead.visaCategories.some((v) =>
+          v.toLowerCase().includes(searchQuery.toLowerCase())
+        ) ||
+        lead.helpText.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [leads, searchQuery]);
 
   const onUpdateLeadsStatus = ({ lead }: { lead: Lead }) => {
     setLeads((prevLeads: Lead[]) => {
@@ -34,6 +52,23 @@ export default function LeadsTable({ leads, setLeads }: Props) {
 
   return (
     <div className="leads-table">
+      <div className="leads-table__search">
+        <Image
+          className="leads-table__search-icon"
+          src={search}
+          alt="Seach"
+          width={20}
+          height={20}
+        />
+        <input
+          type="text"
+          placeholder="Search leads..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="leads-table__search-input"
+        />
+      </div>
+
       <table className="leads-table__table">
         <thead>
           <tr>
@@ -48,7 +83,7 @@ export default function LeadsTable({ leads, setLeads }: Props) {
         </thead>
         <tbody>
           {/* TODO: add a component for the row */}
-          {leads.map((lead, index) => (
+          {filteredLeads.map((lead, index) => (
             <tr className="leads-table__row" key={index}>
               <td>{lead.firstName}</td>
               <td>{lead.lastName}</td>
