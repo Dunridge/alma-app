@@ -29,24 +29,31 @@ export default function LeadsTable({ leads, setLeads }: Props) {
     );
   }, [leads, searchQuery]);
 
-  const onUpdateLeadsStatus = ({ lead }: { lead: Lead }) => {
-    setLeads((prevLeads: Lead[]) => {
-      const updatedLeads = prevLeads.map((currLead) => {
-        if (currLead.id === lead.id) {
-          return {
-            ...lead,
-            status:
-              currLead.status === Status.PENDING
-                ? Status.REACHED_OUT
-                : Status.PENDING,
-          };
-        } else {
-          return currLead;
-        }
+  const onUpdateLeadsStatus = async ({ lead }: { lead: Lead }) => {
+    const newStatus =
+      lead.status === Status.PENDING ? Status.REACHED_OUT : Status.PENDING;
+
+    try {
+      const res = await fetch(`/api/leads/${lead.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
       });
 
-      return updatedLeads;
-    });
+      if (!res.ok) {
+        console.error("Failed to update lead status");
+        return;
+      }
+
+      const updatedLead: Lead = await res.json();
+      setLeads((prevLeads: Lead[]) =>
+        prevLeads.map((currLead) =>
+          currLead.id === updatedLead.id ? updatedLead : currLead
+        )
+      );
+    } catch (err) {
+      console.error("Error updating lead status:", err);
+    }
   };
 
   return (
