@@ -14,31 +14,6 @@ import { Lead } from "@/types";
 
 const visaOptions = ["O-1", "EB-1A", "EB-2 NIW", "I don't know"];
 
-/*
-
-TODO: add the update endpoint for the individual lead (optional)
-// Update
-await fetch(`/api/leads/${leadId}`, {
-  method: "PATCH",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ status: "REACHED_OUT" }),
-});
-
-// DONE 
-
-// Submit lead (POST) (~)
-await fetch("/api/leads", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ firstName, lastName, email, linkedin, visas, message }),
-});
-
-// Get all leads (GET) (~)
-const res = await fetch("/api/leads");
-const leads = await res.json();
-
-*/
-
 export default function ImmigrationAssessmentForm() {
   const router = useRouter();
 
