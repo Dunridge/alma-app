@@ -1,0 +1,13 @@
+.menu-sidebar {
+  width: 300px;
+  height: 100vh;
+  padding: 16px 36px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ededed;
+}
+
+.menu-sidebar__options {
+  display: flex;
+  flex-direction: column;
+}
