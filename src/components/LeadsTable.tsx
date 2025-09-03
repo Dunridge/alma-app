@@ -12,7 +12,6 @@ type Props = {
 
 export default function LeadsTable({ leads, setLeads }: Props) {
   // TODO: add pagination
-  // TODO: add a search input here
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredLeads = useMemo(() => {
@@ -99,7 +98,6 @@ export default function LeadsTable({ leads, setLeads }: Props) {
               </td>
               <td>{lead.visaCategories.join(", ")}</td>
               <td>{lead.helpText}</td>
-              {/* TODO: add a button to switch this between states: style={{ width: 138 }} */}
               <td className="leads-table__row__status">
                 <button onClick={() => onUpdateLeadsStatus({ lead })}>
                   {lead.status}

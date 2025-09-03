@@ -4,7 +4,7 @@ export enum Status {
 }
 
 export type Lead = {
-  id: string;
+  id?: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -12,5 +12,5 @@ export type Lead = {
   visaCategories: string[];
   resume: File | null;
   helpText: string;
-  status: Status;
+  status?: Status;
 };

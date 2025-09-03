@@ -17,7 +17,7 @@ export default function MenuSidebar({}: Props) {
 
       <div className="menu-sidebar__options">
         <SidebarOption href="/menu/leads" text="Leads" />
-        {/* TODO: add settings */}
+        {/* TODO: define the settings page */}
         <SidebarOption href="/menu/settings" text="Settings" />
       </div>
     </div>

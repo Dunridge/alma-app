@@ -5,8 +5,6 @@
 import MenuSidebar from "@/components/MenuSidebar";
 import { ReactNode } from "react";
 
-// TODO: add the UI for the leads
-//  -
 export default function Menu({ children }: { children: ReactNode }) {
   return (
     <div className="menu">
