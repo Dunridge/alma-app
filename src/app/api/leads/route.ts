@@ -4,7 +4,6 @@ import path from "path";
 
 const filePath = path.join(process.cwd(), "src", "data", "leads.json");
 
-// Async JSON helpers
 const readLeads = async () => {
   const jsonData = await fs.readFile(filePath, "utf-8");
   return JSON.parse(jsonData);
@@ -55,31 +54,23 @@ export async function POST(req: Request) {
     await fs.writeFile(path.join(uploadDir, fileName), bytes);
   }
 
-  // const newLead = {
-  //   id: Date.now(),
-  //   firstName,
-  //   resume: resumePath,
-  //   createdAt: new Date().toISOString(),
-  // };
-
   const newLead = {
     id: Date.now(),
     firstName,
     lastName,
     email,
     linkedin: linkedin || "",
-    visas: visas.length > 0 ? visas : [], // write as an array // visas.length > 0 ? visas : []
+    visas: visas.length > 0 ? visas : [],
     message: message || "",
-    status: "PENDING",
+    status: "Pending",
     resume: resumePath,
     createdAt: new Date().toISOString(),
   };
 
-  // Persist the lead
   let leads = [];
   try {
     leads = await readLeads();
-  } catch {} // file may not exist yet
+  } catch {}
   leads.push(newLead);
   await writeLeads(leads);
 
