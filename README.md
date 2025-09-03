@@ -3,6 +3,16 @@
 
 `pnpm run dev`
 
+# Mock User
+Use the mock user credentials to log in: 
+
+```
+const MOCK_USER = {
+  email: "admin@alma.com",
+  password: "admin",
+};
+```
+
 
 # System Design for Lead Management Frontend Application
 
