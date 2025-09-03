@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   border: 1px solid #ededed;
+  gap: 60px;
 }
 
 .menu-sidebar__options {

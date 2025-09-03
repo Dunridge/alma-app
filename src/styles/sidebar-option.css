@@ -1,0 +1,12 @@
+.sidebar-option {
+  all: unset;
+  display: block;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  padding: 0.5rem 1rem;
+}
+
+.sidebar-option--selected {
+  font-weight: 600;
+}
