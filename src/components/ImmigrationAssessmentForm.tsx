@@ -10,13 +10,14 @@ import FormInput from "./FormInput";
 import FormTextarea from "./FormTextarea";
 import FormCheckboxGroup from "./FormCheckboxGroup";
 import FormFileInput from "./FormFileInput";
+import { Lead } from "@/types";
 
 const visaOptions = ["O-1", "EB-1A", "EB-2 NIW", "I don't know"];
 
 export default function ImmigrationAssessmentForm() {
   const router = useRouter();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Lead>({
     firstName: "",
     lastName: "",
     email: "",

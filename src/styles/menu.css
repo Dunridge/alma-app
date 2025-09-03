@@ -1,0 +1,9 @@
+.menu {
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.menu__children {
+  width: 100%;
+}
