@@ -80,8 +80,7 @@ export default function LeadsTable({ leads, setLeads, loading }: Props) {
       <table className="leads-table__table">
         <thead>
           <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Name</th>
             <th>Email</th>
             <th>LinkedIn</th>
             <th>Visa Categories</th>
@@ -102,8 +101,9 @@ export default function LeadsTable({ leads, setLeads, loading }: Props) {
             {/* TODO: add a component for the row */}
             {filteredLeads.map((lead, index) => (
               <tr className="leads-table__row" key={index}>
-                <td>{lead.firstName}</td>
-                <td>{lead.lastName}</td>
+                <td>
+                  {lead.firstName} {lead.lastName}
+                </td>
                 <td>{lead.email}</td>
                 <td>
                   <a
