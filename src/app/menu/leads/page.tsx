@@ -45,8 +45,8 @@ export default function Leads() {
   const [leads, setLeads] = useState(tmpLeads);
 
   return (
-    <div>
-      <div>Leads</div>
+    <div className="leads">
+      <div className="leads__title">Leads</div>
 
       <LeadsTable leads={leads} setLeads={setLeads} />
     </div>

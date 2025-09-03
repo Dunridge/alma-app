@@ -9,8 +9,8 @@ type Props = {
 };
 
 export default function LeadsTable({ leads, setLeads }: Props) {
+  // TODO: add pagination
   // TODO: add a search input here
-  // TODO: style
 
   const onUpdateLeadsStatus = ({ lead }: { lead: Lead }) => {
     setLeads((prevLeads: Lead[]) => {
@@ -47,8 +47,9 @@ export default function LeadsTable({ leads, setLeads }: Props) {
           </tr>
         </thead>
         <tbody>
+          {/* TODO: add a component for the row */}
           {leads.map((lead, index) => (
-            <tr key={index}>
+            <tr className="leads-table__row" key={index}>
               <td>{lead.firstName}</td>
               <td>{lead.lastName}</td>
               <td>{lead.email}</td>
@@ -63,8 +64,8 @@ export default function LeadsTable({ leads, setLeads }: Props) {
               </td>
               <td>{lead.visaCategories.join(", ")}</td>
               <td>{lead.helpText}</td>
-              {/* TODO: add a button to switch this between states */}
-              <td>
+              {/* TODO: add a button to switch this between states: style={{ width: 138 }} */}
+              <td className="leads-table__row__status">
                 <button onClick={() => onUpdateLeadsStatus({ lead })}>
                   {lead.status}
                 </button>

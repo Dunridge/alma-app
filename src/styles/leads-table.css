@@ -1,3 +1,78 @@
+.leads-table {
+  margin-top: 20px;
+  overflow-x: auto;
+  padding: 0 38px;
+}
+
 .leads-table__table {
   width: 100%;
+  border-collapse: separate; /* important for border-radius */
+  border-spacing: 0; /* remove spacing between cells */
+  background-color: #fff;
+  font-size: 14px;
+  border-radius: 8px; /* round corners */
+  overflow: hidden; /* ensures corners are clipped */
+  border: 1px solid #ededed; /* optional outer border */
+}
+
+/* Optional: style corners of the first/last cells in the first/last row */
+.leads-table__table th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.leads-table__table th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.leads-table__row:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.leads-table__row:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+.leads-table__table th,
+.leads-table__table td {
+  border: 1px solid #ededed;
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.leads-table__table th {
+  font-weight: 600;
+  color: #333;
+}
+
+.leads-table__row:hover {
+  background-color: #f0f0ff;
+}
+
+.leads-table__row a {
+  color: #8786ff;
+  text-decoration: none;
+}
+
+.leads-table__row a:hover {
+  text-decoration: underline;
+}
+
+.leads-table__row button {
+  padding: 6px 12px;
+  font-size: 13px;
+  border: 1px solid #8786ff;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #8786ff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.leads-table__row button:hover {
+  background-color: #8786ff;
+  color: #fff;
+}
+
+.leads-table__row__status {
+  width: 104px;
 }
