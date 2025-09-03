@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import like from "@/assets/svg/like.svg";
 import category from "@/assets/svg/category.svg";
@@ -14,6 +14,27 @@ import { Lead } from "@/types";
 
 const visaOptions = ["O-1", "EB-1A", "EB-2 NIW", "I don't know"];
 
+/*
+// Submit lead (POST)
+await fetch("/api/leads", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ firstName, lastName, email, linkedin, visas, message }),
+});
+
+// Get all leads (GET)
+const res = await fetch("/api/leads");
+const leads = await res.json();
+
+// Update
+await fetch(`/api/leads/${leadId}`, {
+  method: "PATCH",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ status: "REACHED_OUT" }),
+});
+
+*/
+
 export default function ImmigrationAssessmentForm() {
   const router = useRouter();
 
@@ -22,9 +43,9 @@ export default function ImmigrationAssessmentForm() {
     lastName: "",
     email: "",
     linkedin: "",
-    visaCategories: [] as string[],
+    visas: [] as string[],
     resume: null as File | null,
-    helpText: "",
+    message: "",
   });
 
   const handleChange = (
@@ -38,21 +59,51 @@ export default function ImmigrationAssessmentForm() {
 
   const handleCheckboxChange = (option: string) => {
     setFormData((prev) => {
-      const visaCategories = prev.visaCategories.includes(option)
-        ? prev.visaCategories.filter((v) => v !== option)
-        : [...prev.visaCategories, option];
-      return { ...prev, visaCategories };
+      const visas = prev.visas.includes(option)
+        ? prev.visas.filter((v) => v !== option)
+        : [...prev.visas, option];
+      return { ...prev, visas };
     });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    router.push("/submitted");
   };
 
   const handleFileChange = (file: File | null) => {
     setFormData((prev) => ({ ...prev, resume: file }));
+  };
+
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   console.log("Form submitted:", formData);
+  //   router.push("/submitted");
+  // };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const payload = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      linkedin: formData.linkedin,
+      visas: formData.visas,
+      message: formData.message,
+    };
+
+    const res = await fetch("/api/leads", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      console.error(err);
+      alert(err.error || "Something went wrong");
+      return;
+    }
+
+    const newLead = await res.json();
+    console.log("Form submitted:", newLead);
+    router.push("/submitted");
   };
 
   return (
@@ -112,7 +163,7 @@ export default function ImmigrationAssessmentForm() {
             <FormCheckboxGroup
               label="Visa categories of interest?"
               options={visaOptions.map((v) => ({ label: v, value: v }))}
-              selectedValues={formData.visaCategories}
+              selectedValues={formData.visas}
               onChange={handleCheckboxChange}
             />
           </div>
@@ -133,9 +184,9 @@ export default function ImmigrationAssessmentForm() {
             </p>
 
             <FormTextarea
-              name="helpText"
+              name="message"
               placeholder="What is your current status and when does it expire? What is your past immigration history? Are you looking for long-term permanent residency or short-term employment visa or both? Are there any timeline considerations?"
-              value={formData.helpText}
+              value={formData.message}
               onChange={handleChange}
               className="immigration-form__textarea"
             />

@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# How to run the project locally 
 
-First, run the development server:
+`pnpm run dev`
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# System Design for Lead Management Frontend Application
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Overview
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This system is a **Lead Management application** built using **Next.js**. It consists of:
 
-## Learn More
+1. A **Public Lead Form** for prospects to submit their information.
+2. An **Internal Leads List UI** for internal staff to view and manage leads.
+3. Backend API endpoints (mocked or implemented using Next.js API routes) to store, retrieve, and update lead information.
 
-To learn more about Next.js, take a look at the following resources:
+The system is designed to be **modular, type-safe (TypeScript), and responsive**, with **file upload**, **form validation**, and **state management** considerations.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Architecture
 
-## Deploy on Vercel
+### Frontend
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Framework:** Next.js (React-based)
+- **Pages/Components:**
+  - `PublicLeadForm`: Collects prospect information (first name, last name, email, LinkedIn, visa interests, resume/CV, message).
+  - `InternalLeadsList`: Displays leads, allows status updates (PENDING → REACHED_OUT), protected by mock authentication.
+  - Reusable form components:
+    - `FormInput`
+    - `FormTextarea`
+    - `FormCheckboxGroup`
+    - `FormFileInput`
+- **State Management:**
+  - Local state using React `useState` for forms.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Backend (Next.js API)
+
+- **Endpoints:**
+  - `GET /api/leads` – Retrieve all leads.
+  - `POST /api/leads` – Submit a new lead.
+  - `PATCH /api/leads/:id` – Update a lead’s status.
+- **Data Storage:**
+  - Local JSON file (`src/data/leads.json`) for persistence.
+
+### Authentication
+
+- **Internal UI:** Protected by a **mock authentication mechanism** (e.g., username/password prompt or a simple token check) to restrict access to internal staff.
+
+### Validation
+
+- **Client-side validation:** Ensures required fields are filled before submission.
+- **Optional feedback:** Inline error messages for invalid input or missing fields.
+
+---
+
+## Data Model
+
+```ts
+interface Lead {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  linkedin: string;
+  visas: string[];
+  resume?: File | null;
+  message: string;
+  status: "PENDING" | "REACHED_OUT";
+  createdAt: string;
+}

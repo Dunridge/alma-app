@@ -9,8 +9,8 @@ export type Lead = {
   lastName: string;
   email: string;
   linkedin: string;
-  visaCategories: string[];
+  visas: string[];
   resume: File | null;
-  helpText: string;
+  message: string;
   status?: Status;
 };
