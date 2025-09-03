@@ -103,3 +103,10 @@
 .leads-table__row__status {
   width: 104px;
 }
+
+.leads-table__row__message {
+  max-width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
