@@ -1,8 +1,12 @@
+"use client";
+
 import LeadsTable from "@/components/LeadsTable";
-import { Lead } from "@/types";
+import { Lead, Status } from "@/types";
+import { useState } from "react";
 
 export const tmpLeads: Lead[] = [
   {
+    id: "id1",
     firstName: "Alice",
     lastName: "Johnson",
     email: "alice.johnson@example.com",
@@ -10,8 +14,10 @@ export const tmpLeads: Lead[] = [
     visaCategories: ["H-1B", "O-1"],
     resume: null,
     helpText: "Looking for sponsorship for H-1B transfer.",
+    status: Status.PENDING,
   },
   {
+    id: "id2",
     firstName: "Brian",
     lastName: "Lee",
     email: "brian.lee@example.com",
@@ -19,8 +25,10 @@ export const tmpLeads: Lead[] = [
     visaCategories: ["Green Card"],
     resume: null,
     helpText: "Interested in employment-based green card process.",
+    status: Status.PENDING,
   },
   {
+    id: "id3",
     firstName: "Carla",
     lastName: "Martinez",
     email: "carla.martinez@example.com",
@@ -28,16 +36,19 @@ export const tmpLeads: Lead[] = [
     visaCategories: ["F-1", "OPT"],
     resume: null,
     helpText: "Graduating in May, looking for OPT opportunities.",
+    status: Status.PENDING,
   },
 ];
 
 // TODO: add the leads table here
 export default function Leads() {
+  const [leads, setLeads] = useState(tmpLeads);
+
   return (
     <div>
       <div>Leads</div>
 
-      <LeadsTable leads={tmpLeads} />
+      <LeadsTable leads={leads} setLeads={setLeads} />
     </div>
   );
 }

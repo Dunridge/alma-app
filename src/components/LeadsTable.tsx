@@ -1,17 +1,40 @@
-import { Lead } from "@/types";
+"use client";
+
+import { Lead, Status } from "@/types";
+import { Dispatch, SetStateAction } from "react";
 
 type Props = {
   leads: Lead[];
+  setLeads: Dispatch<SetStateAction<Lead[]>>;
 };
 
-export default function LeadsTable({ leads }: Props) {
+export default function LeadsTable({ leads, setLeads }: Props) {
   // TODO: add a search input here
   // TODO: style
-  // TODO: add a button to change the state of a lead from PENDING to REACHED_OUT.
+
+  const onUpdateLeadsStatus = ({ lead }: { lead: Lead }) => {
+    setLeads((prevLeads: Lead[]) => {
+      const updatedLeads = prevLeads.map((currLead) => {
+        if (currLead.id === lead.id) {
+          return {
+            ...lead,
+            status:
+              currLead.status === Status.PENDING
+                ? Status.REACHED_OUT
+                : Status.PENDING,
+          };
+        } else {
+          return currLead;
+        }
+      });
+
+      return updatedLeads;
+    });
+  };
 
   return (
     <div className="leads-table">
-      <table>
+      <table className="leads-table__table">
         <thead>
           <tr>
             <th>First Name</th>
@@ -20,6 +43,7 @@ export default function LeadsTable({ leads }: Props) {
             <th>LinkedIn</th>
             <th>Visa Categories</th>
             <th>Help Text</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -39,6 +63,12 @@ export default function LeadsTable({ leads }: Props) {
               </td>
               <td>{lead.visaCategories.join(", ")}</td>
               <td>{lead.helpText}</td>
+              {/* TODO: add a button to switch this between states */}
+              <td>
+                <button onClick={() => onUpdateLeadsStatus({ lead })}>
+                  {lead.status}
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
