@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import like from "@/assets/svg/like.svg";
 import category from "@/assets/svg/category.svg";
@@ -14,8 +14,40 @@ import { Lead } from "@/types";
 
 const visaOptions = ["O-1", "EB-1A", "EB-2 NIW", "I don't know"];
 
+/*
+// Submit lead (POST)
+await fetch("/api/leads", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ firstName, lastName, email, linkedin, visas, message }),
+});
+
+// Get all leads (GET)
+const res = await fetch("/api/leads");
+const leads = await res.json();
+
+// Update
+await fetch(`/api/leads/${leadId}`, {
+  method: "PATCH",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ status: "REACHED_OUT" }),
+});
+
+*/
+
 export default function ImmigrationAssessmentForm() {
   const router = useRouter();
+
+  useEffect(() => {
+    fetchLeads();
+  }, []);
+
+  const fetchLeads = async () => {
+    const res = await fetch("/api/leads");
+    debugger;
+    const leads = await res.json();
+    console.log("leads", leads);
+  };
 
   const [formData, setFormData] = useState<Lead>({
     firstName: "",
