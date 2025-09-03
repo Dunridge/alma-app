@@ -90,6 +90,15 @@
   box-sizing: border-box;
 }
 
+.immigration-form__input-error-text {
+  width: 100%;
+  color: #d32f2f;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  margin-left: 4px;
+  font-weight: 500;
+}
+
 .immigration-form__textarea {
   height: 8rem;
   resize: none;

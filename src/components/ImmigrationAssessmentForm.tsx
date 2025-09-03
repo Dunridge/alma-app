@@ -15,23 +15,27 @@ import { Lead } from "@/types";
 const visaOptions = ["O-1", "EB-1A", "EB-2 NIW", "I don't know"];
 
 /*
-// Submit lead (POST)
-await fetch("/api/leads", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ firstName, lastName, email, linkedin, visas, message }),
-});
 
-// Get all leads (GET)
-const res = await fetch("/api/leads");
-const leads = await res.json();
-
+TODO: add the update endpoint for the individual lead (optional)
 // Update
 await fetch(`/api/leads/${leadId}`, {
   method: "PATCH",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ status: "REACHED_OUT" }),
 });
+
+// DONE 
+
+// Submit lead (POST) (~)
+await fetch("/api/leads", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ firstName, lastName, email, linkedin, visas, message }),
+});
+
+// Get all leads (GET) (~)
+const res = await fetch("/api/leads");
+const leads = await res.json();
 
 */
 
@@ -48,10 +52,10 @@ export default function ImmigrationAssessmentForm() {
     message: "",
   });
 
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -70,14 +74,42 @@ export default function ImmigrationAssessmentForm() {
     setFormData((prev) => ({ ...prev, resume: file }));
   };
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   console.log("Form submitted:", formData);
-  //   router.push("/submitted");
-  // };
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.firstName.trim())
+      newErrors.firstName = "First name is required";
+    if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Invalid email format";
+    }
+    if (!formData.linkedin.trim())
+      newErrors.linkedin = "LinkedIn/website is required";
+    if (formData.visas.length === 0)
+      newErrors.visas = "Select at least one visa category";
+
+    if (!formData.message.trim()) {
+      newErrors.message = "Please describe your case";
+    } else if (formData.message.length < 20) {
+      newErrors.message = "Message must be at least 20 characters";
+    }
+
+    return newErrors;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setErrors({}); // clear errors if all good
 
     const payload = {
       firstName: formData.firstName,
@@ -110,15 +142,13 @@ export default function ImmigrationAssessmentForm() {
     <div className="immigration-form">
       <form className="immigration-form__body" onSubmit={handleSubmit}>
         <div className="immigration-form__intro">
-          <Image src={info} alt="Like" width={64} height={64} />
-
+          <Image src={info} alt="Info" width={64} height={64} />
           <p className="immigration-form__intro-title">
             Want to understand your visa options?
           </p>
           <p className="immigration-form__intro-text">
             Submit the form below and our team of experienced attorneys will
-            review your information and send a preliminary assessment of your
-            case based on your goals.
+            review your information.
           </p>
         </div>
 
@@ -130,6 +160,11 @@ export default function ImmigrationAssessmentForm() {
             onChange={handleChange}
             className="immigration-form__input"
           />
+          {errors.firstName && (
+            <p className="immigration-form__input-error-text">
+              {errors.firstName}
+            </p>
+          )}
 
           <FormInput
             name="lastName"
@@ -138,6 +173,11 @@ export default function ImmigrationAssessmentForm() {
             onChange={handleChange}
             className="immigration-form__input"
           />
+          {errors.lastName && (
+            <p className="immigration-form__input-error-text">
+              {errors.lastName}
+            </p>
+          )}
 
           <FormInput
             type="email"
@@ -147,6 +187,9 @@ export default function ImmigrationAssessmentForm() {
             onChange={handleChange}
             className="immigration-form__input"
           />
+          {errors.email && (
+            <p className="immigration-form__input-error-text">{errors.email}</p>
+          )}
 
           <FormInput
             name="linkedin"
@@ -155,6 +198,11 @@ export default function ImmigrationAssessmentForm() {
             onChange={handleChange}
             className="immigration-form__input"
           />
+          {errors.linkedin && (
+            <p className="immigration-form__input-error-text">
+              {errors.linkedin}
+            </p>
+          )}
         </div>
 
         <div className="immigration-form__group">
@@ -166,6 +214,11 @@ export default function ImmigrationAssessmentForm() {
               selectedValues={formData.visas}
               onChange={handleCheckboxChange}
             />
+            {errors.visas && (
+              <p className="immigration-form__input-error-text">
+                {errors.visas}
+              </p>
+            )}
           </div>
         </div>
 
@@ -174,23 +227,28 @@ export default function ImmigrationAssessmentForm() {
           file={formData.resume}
           onChange={handleFileChange}
         />
+        {/* {errors.resume && <p className="error-text">{errors.resume}</p>} */}
 
         <div className="immigration-form__group">
           <Image src={like} alt="Like" width={64} height={64} />
-
           <div className="immigration-form__group-container">
             <p className="immigration-form__group-title">
               How can we help you?
             </p>
-
             <FormTextarea
               name="message"
-              placeholder="What is your current status and when does it expire? What is your past immigration history? Are you looking for long-term permanent residency or short-term employment visa or both? Are there any timeline considerations?"
+              placeholder="Describe your case..."
               value={formData.message}
               onChange={handleChange}
               className="immigration-form__textarea"
             />
           </div>
+
+          {errors.message && (
+            <p className="immigration-form__input-error-text">
+              {errors.message}
+            </p>
+          )}
         </div>
 
         <button type="submit" className="immigration-form__submit-btn">
