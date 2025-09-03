@@ -2,6 +2,7 @@
   height: 100vh;
   display: flex;
   overflow: hidden;
+  background: radial-gradient(circle at top left, #fbfee3 0%, #ffffff 30%);
 }
 
 .menu__children {
