@@ -5,6 +5,7 @@ import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import search from "@/assets/svg/search.svg";
 import Image from "next/image";
 import Spinner from "./Spinner";
+import Pagination from "./Pagination";
 
 type Props = {
   leads: Lead[];
@@ -13,8 +14,9 @@ type Props = {
 };
 
 export default function LeadsTable({ leads, setLeads, loading }: Props) {
-  // TODO: add pagination
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
 
   const filteredLeads = useMemo(() => {
     if (!searchQuery) return leads;
@@ -30,6 +32,11 @@ export default function LeadsTable({ leads, setLeads, loading }: Props) {
         lead?.message?.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [leads, searchQuery]);
+
+  const paginatedLeads = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageSize;
+    return filteredLeads.slice(startIndex, startIndex + pageSize);
+  }, [filteredLeads, currentPage]);
 
   const onUpdateLeadsStatus = async ({ lead }: { lead: Lead }) => {
     const newStatus =
@@ -99,7 +106,7 @@ export default function LeadsTable({ leads, setLeads, loading }: Props) {
         ) : (
           <tbody>
             {/* TODO: add a component for the row */}
-            {filteredLeads.map((lead, index) => (
+            {paginatedLeads.map((lead, index) => (
               <tr className="leads-table__row" key={index}>
                 <td>
                   {lead.firstName} {lead.lastName}
@@ -126,6 +133,13 @@ export default function LeadsTable({ leads, setLeads, loading }: Props) {
           </tbody>
         )}
       </table>
+
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        filteredLeadsLength={filteredLeads.length}
+        pageSize={pageSize}
+      />
     </div>
   );
 }
