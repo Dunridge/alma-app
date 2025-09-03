@@ -10,8 +10,8 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
-  title: "Alma test",
-  description: "Alma test",
+  title: "Alma",
+  description: "Alma",
 };
 
 export default function RootLayout({
