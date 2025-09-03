@@ -44,12 +44,11 @@ export async function POST(req: NextRequest) {
     lastName,
     email,
     linkedin: linkedin || "",
-    visas: visas || "",
+    visas,
     message: message || "",
     status: "PENDING",
     createdAt: new Date().toISOString(),
   };
-
   leads.push(newLead);
   writeLeads(leads);
 

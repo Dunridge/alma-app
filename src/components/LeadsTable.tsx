@@ -22,10 +22,10 @@ export default function LeadsTable({ leads, setLeads }: Props) {
         lead.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         lead.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
         lead.linkedin.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        lead.visaCategories.some((v) =>
+        lead.visas.some((v) =>
           v.toLowerCase().includes(searchQuery.toLowerCase())
         ) ||
-        lead.helpText.toLowerCase().includes(searchQuery.toLowerCase())
+        lead?.message?.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [leads, searchQuery]);
 
@@ -96,8 +96,8 @@ export default function LeadsTable({ leads, setLeads }: Props) {
                   {lead.linkedin}
                 </a>
               </td>
-              <td>{lead.visaCategories.join(", ")}</td>
-              <td>{lead.helpText}</td>
+              <td>{lead?.visas?.join(", ")}</td>
+              <td>{lead.message}</td>
               <td className="leads-table__row__status">
                 <button onClick={() => onUpdateLeadsStatus({ lead })}>
                   {lead.status}

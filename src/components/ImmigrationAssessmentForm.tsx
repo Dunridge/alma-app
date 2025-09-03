@@ -38,17 +38,6 @@ await fetch(`/api/leads/${leadId}`, {
 export default function ImmigrationAssessmentForm() {
   const router = useRouter();
 
-  useEffect(() => {
-    fetchLeads();
-  }, []);
-
-  const fetchLeads = async () => {
-    const res = await fetch("/api/leads");
-    debugger;
-    const leads = await res.json();
-    console.log("leads", leads);
-  };
-
   const [formData, setFormData] = useState<Lead>({
     firstName: "",
     lastName: "",
@@ -77,14 +66,44 @@ export default function ImmigrationAssessmentForm() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    router.push("/submitted");
-  };
-
   const handleFileChange = (file: File | null) => {
     setFormData((prev) => ({ ...prev, resume: file }));
+  };
+
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   console.log("Form submitted:", formData);
+  //   router.push("/submitted");
+  // };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const payload = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      linkedin: formData.linkedin,
+      visas: formData.visaCategories,
+      message: formData.helpText,
+    };
+
+    const res = await fetch("/api/leads", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      console.error(err);
+      alert(err.error || "Something went wrong");
+      return;
+    }
+
+    const newLead = await res.json();
+    console.log("Form submitted:", newLead);
+    router.push("/submitted");
   };
 
   return (
