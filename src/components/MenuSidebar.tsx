@@ -17,8 +17,13 @@ export default function MenuSidebar({}: Props) {
 
       <div className="menu-sidebar__options">
         <SidebarOption href="/menu/leads" text="Leads" />
-        {/* TODO: define the settings page */}
+
         <SidebarOption href="/menu/settings" text="Settings" />
+      </div>
+
+      <div className="menu-sidebar__loggedin-user">
+        <div className="menu-sidebar__loggedin-user__emblem">A</div>
+        <div className="menu-sidebar__loggedin-user__name">Admin</div>
       </div>
     </div>
   );
