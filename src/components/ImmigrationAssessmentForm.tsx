@@ -43,9 +43,9 @@ export default function ImmigrationAssessmentForm() {
     lastName: "",
     email: "",
     linkedin: "",
-    visaCategories: [] as string[],
+    visas: [] as string[],
     resume: null as File | null,
-    helpText: "",
+    message: "",
   });
 
   const handleChange = (
@@ -59,10 +59,10 @@ export default function ImmigrationAssessmentForm() {
 
   const handleCheckboxChange = (option: string) => {
     setFormData((prev) => {
-      const visaCategories = prev.visaCategories.includes(option)
-        ? prev.visaCategories.filter((v) => v !== option)
-        : [...prev.visaCategories, option];
-      return { ...prev, visaCategories };
+      const visas = prev.visas.includes(option)
+        ? prev.visas.filter((v) => v !== option)
+        : [...prev.visas, option];
+      return { ...prev, visas };
     });
   };
 
@@ -84,8 +84,8 @@ export default function ImmigrationAssessmentForm() {
       lastName: formData.lastName,
       email: formData.email,
       linkedin: formData.linkedin,
-      visas: formData.visaCategories,
-      message: formData.helpText,
+      visas: formData.visas,
+      message: formData.message,
     };
 
     const res = await fetch("/api/leads", {
@@ -163,7 +163,7 @@ export default function ImmigrationAssessmentForm() {
             <FormCheckboxGroup
               label="Visa categories of interest?"
               options={visaOptions.map((v) => ({ label: v, value: v }))}
-              selectedValues={formData.visaCategories}
+              selectedValues={formData.visas}
               onChange={handleCheckboxChange}
             />
           </div>
@@ -184,9 +184,9 @@ export default function ImmigrationAssessmentForm() {
             </p>
 
             <FormTextarea
-              name="helpText"
+              name="message"
               placeholder="What is your current status and when does it expire? What is your past immigration history? Are you looking for long-term permanent residency or short-term employment visa or both? Are there any timeline considerations?"
-              value={formData.helpText}
+              value={formData.message}
               onChange={handleChange}
               className="immigration-form__textarea"
             />
