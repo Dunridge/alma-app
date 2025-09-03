@@ -97,7 +97,7 @@ export default function LeadsTable({ leads, setLeads }: Props) {
                 </a>
               </td>
               <td>{lead?.visas?.join(", ")}</td>
-              <td>{lead.message}</td>
+              <td className="leads-table__row__message">{lead.message}</td>
               <td className="leads-table__row__status">
                 <button onClick={() => onUpdateLeadsStatus({ lead })}>
                   {lead.status}
