@@ -4,13 +4,15 @@ import { Lead, Status } from "@/types";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import search from "@/assets/svg/search.svg";
 import Image from "next/image";
+import Spinner from "./Spinner";
 
 type Props = {
   leads: Lead[];
   setLeads: Dispatch<SetStateAction<Lead[]>>;
+  loading: boolean;
 };
 
-export default function LeadsTable({ leads, setLeads }: Props) {
+export default function LeadsTable({ leads, setLeads, loading }: Props) {
   // TODO: add pagination
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -78,8 +80,7 @@ export default function LeadsTable({ leads, setLeads }: Props) {
       <table className="leads-table__table">
         <thead>
           <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Name</th>
             <th>Email</th>
             <th>LinkedIn</th>
             <th>Visa Categories</th>
@@ -87,32 +88,43 @@ export default function LeadsTable({ leads, setLeads }: Props) {
             <th>Status</th>
           </tr>
         </thead>
-        <tbody>
-          {/* TODO: add a component for the row */}
-          {filteredLeads.map((lead, index) => (
-            <tr className="leads-table__row" key={index}>
-              <td>{lead.firstName}</td>
-              <td>{lead.lastName}</td>
-              <td>{lead.email}</td>
-              <td>
-                <a
-                  href={lead.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {lead.linkedin}
-                </a>
-              </td>
-              <td>{lead?.visas?.join(", ")}</td>
-              <td className="leads-table__row__message">{lead.message}</td>
-              <td className="leads-table__row__status">
-                <button onClick={() => onUpdateLeadsStatus({ lead })}>
-                  {lead.status}
-                </button>
+        {loading ? (
+          <tbody>
+            <tr>
+              <td colSpan={7}>
+                <Spinner />
               </td>
             </tr>
-          ))}
-        </tbody>
+          </tbody>
+        ) : (
+          <tbody>
+            {/* TODO: add a component for the row */}
+            {filteredLeads.map((lead, index) => (
+              <tr className="leads-table__row" key={index}>
+                <td>
+                  {lead.firstName} {lead.lastName}
+                </td>
+                <td>{lead.email}</td>
+                <td>
+                  <a
+                    href={lead.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {lead.linkedin}
+                  </a>
+                </td>
+                <td>{lead?.visas?.join(", ")}</td>
+                <td className="leads-table__row__message">{lead.message}</td>
+                <td className="leads-table__row__status">
+                  <button onClick={() => onUpdateLeadsStatus({ lead })}>
+                    {lead.status}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        )}
       </table>
     </div>
   );
