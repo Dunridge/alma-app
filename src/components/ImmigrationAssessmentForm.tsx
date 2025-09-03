@@ -109,21 +109,21 @@ export default function ImmigrationAssessmentForm() {
       return;
     }
 
-    setErrors({}); // clear errors if all good
+    const formDataToSend = new FormData();
+    formDataToSend.append("firstName", formData.firstName);
+    formDataToSend.append("lastName", formData.lastName);
+    formDataToSend.append("email", formData.email);
+    formDataToSend.append("linkedin", formData.linkedin);
+    formData.visas.forEach((visa) => formDataToSend.append("visas", visa));
+    formDataToSend.append("message", formData.message);
 
-    const payload = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      linkedin: formData.linkedin,
-      visas: formData.visas,
-      message: formData.message,
-    };
+    if (formData.resume) {
+      formDataToSend.append("resume", formData.resume);
+    }
 
     const res = await fetch("/api/leads", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: formDataToSend,
     });
 
     if (!res.ok) {
